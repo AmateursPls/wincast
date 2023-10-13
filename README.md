@@ -5,7 +5,7 @@ The [WindowCast core](https://forums.libretro.com/t/official-release-thread-for-
 
 The only problem? It's not entirely intuitive on how to leverage it, it seemingly doesn't intergrate nicely or easily with frontends like [Pegasus](https://pegasus-frontend.org/) or [Launchbox](https://www.launchbox-app.com/) and it requires too much manual intervention in terms of loading up games or even exiting when done.
 
-That's where this simple wrapper comes into the picture \o/ Get [here](https://github.com/AmateursPls/wincast/releases/download/release/wincast_v01.zip)
+That's where this simple wrapper comes into the picture \o/ Download here: [here](https://github.com/AmateursPls/wincast/releases/download/release/wincast_v01.zip)
 
 With this little tool you can simply point a few command-line arguments to the tool and get near-native-core support for your standalone emulators in RetroArch.
 
