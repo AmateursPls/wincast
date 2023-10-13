@@ -5,7 +5,7 @@ The [WindowCast core](https://forums.libretro.com/t/official-release-thread-for-
 
 The only problem? It's not entirely intuitive on how to leverage it, it seemingly doesn't intergrate nicely or easily with frontends like [Pegasus](https://pegasus-frontend.org/) or [Launchbox](https://www.launchbox-app.com/) and it requires too much manual intervention in terms of loading up games or even exiting when done.
 
-That's where this simple wrapper comes into the picture \o/
+That's where this simple wrapper comes into the picture \o/ Get [here](https://github.com/AmateursPls/wincast/releases/download/release/wincast_v01.zip)
 
 With this little tool you can simply point a few command-line arguments to the tool and get near-native-core support for your standalone emulators in RetroArch.
 
@@ -51,8 +51,7 @@ optional arguments:
 -  `--partialdir PARTIALDIR`
                         (OPTIONAL) The path to the directory you want to store the - partial txt files
  - `--emulator_args` EMULATOR_ARGS
-                        (OPTIONAL) You can use this to pass arguments to the standalone emulator (or game) on launch if you need to for some reason. This is a fairly crude implementation, I wouldn't expect much from it/would expect    
-                        bugs if I were you. You're much better off just configuring your emulator as necessary in the UI.
+                        (OPTIONAL) You can use this to pass arguments to the standalone emulator (or game) on launch if you need to for some reason. This is a fairly crude implementation, I wouldn't expect much from it/would expect bugs if I were you. You're much better off just configuring your emulator as necessary in the UI.
 -  `--waitduration WAITDURATION`
                         (OPTIONAL) Specifies the time in seconds to wait for standalone emulator to load. Setting to a higher value should assist slow computers and slow HDDs. Default = 5
 -  `--rom ROM`             (OPTIONAL) The path to the rom you're running. If you're launching a game instead of an emulator, don't pass any argument to this.
