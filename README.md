@@ -65,3 +65,5 @@ I strongly advise you to read the WindowCast readme thorougly - Particulary the 
 
 ### Thanks
 All thanks and credit goes to IHQMD over at the Libretro forums for the WindowCast core. Amazing work by him.
+
+o7
