@@ -10,9 +10,9 @@ import os
 # Returns a parsed Path object based on if absolute or relative
 def getParsedPathName(pathName):
     if Path(pathName).is_absolute():
-        return Path(pathName).resolve()
+        return Path(pathName).absolute()
     else:
-        return Path(str(currentWorkingDirectory) + "\\" + pathName).resolve()
+        return Path(currentWorkingDirectory / pathName).absolute()
 
 # Returns a list of Window Titles from a given Process ID
 # Code adapted from the following Stack question:
@@ -35,8 +35,8 @@ def getWindowTitlesFromProcessID(pid):
 def getGameTitleFromRomPath(romPath, isRPCS3=False):
     if isRPCS3:
         if "EBOOT.BIN" in commandLineArguments.rom:
-            return str(romPath).rsplit("\\", 4)[1].split("\\", 1)[0]
-    return str(romPath).split(".")[0].rsplit("\\", 1)[1]
+            return str(romPath.absolute()).rsplit("\\", 4)[1].split("\\", 1)[0]
+    return str(romPath.absolute()).rsplit(".", 1)[0].rsplit("\\", 1)[1]
 
 # Parser for accepting the command-line arguments
 commandLineParser = ArgumentParser(
@@ -58,7 +58,7 @@ help="(OPTIONAL) You can use this to pass arguments to the standalone emulator (
 This is a fairly crude implementation, I wouldn't expect much from it/would expect bugs if I were you. \
 You're much better off just configuring your emulator as necessary in the UI.")
 
-commandLineParser.add_argument("--waitduration", type=int, default=5, \
+commandLineParser.add_argument("--waitduration", type=int, default=10, \
 help="(OPTIONAL) Specifies the time in seconds to wait for standalone emulator to load. \
 Setting to a higher value should assist slow computers and slow HDDs. \
 Default = 5")
@@ -72,7 +72,7 @@ commandLineArguments  = commandLineParser.parse_args()
 
 # Get the directory this utility is being ran from as a Path()
 # Ignoring the filthily-chained 1-liner, this can't be the best way to do this can it? Was the best I could find, though.
-currentWorkingDirectory = Path(str(os.path.abspath(".").rsplit("\\", 1)[0])).resolve()
+currentWorkingDirectory = Path(os.path.abspath("."))
 
 # Standalone emulator executable as Path instance
 emulatorExePath = getParsedPathName(commandLineArguments.emulator)
@@ -159,7 +159,12 @@ if len(windowTitles) == 2:
         else:
             # RPCS3 reports the FPS in the window title so we need to trim it down
             # For now, going to leave the Game ID (for example [BLUS12345]) in
-            desiredWindowTitle = window.rsplit(" | ", 1)[1]
+            try:
+                desiredWindowTitle = window.rsplit(" | ", 1)[1]
+            except:
+                # this code is getting very gross, really need to rewrite it already
+                # Even though this is as flagged as RPCS3 = True, it's actually not, this is to handle Dolphin
+                desiredWindowTitle = window
 
 # Grab the folder name of the emulator for cleaner storage of the partial.txt files
 # Also enables mimicking "Per Core" shader settings by using Content Directory
@@ -184,14 +189,14 @@ if not pathToCreate.exists():
     pathToCreate.mkdir(parents=True, exist_ok=False)
 
 # Save the Path reference to the txt file we create to load in Retroarch
-partialTextFile = str(pathToCreate / gameTitleForPartialFile) + ".txt"
+partialTextFile = str(Path(pathToCreate / gameTitleForPartialFile)) + ".txt"
 
 # Write the actual txt file to the directory we created using the Game Title we extracted earlier
 with open(partialTextFile, "w", encoding="utf-8") as textFile:
     textFile.write(desiredWindowTitle)
 
 # Get an absolute path to the WindowsCast DLL to be referenced when calling RetroArch 
-winCastCorePath = Path(str(retroarchExePath).rsplit("\\", 1)[0] + "\\cores\\wgc_libretro.dll").resolve()
+winCastCorePath = Path(str(retroarchExePath).rsplit("\\", 1)[0] + "\\cores\\wgc_libretro.dll")
 
 retroarchLaunchString = '{} -L "{}" "{}"'.format(retroarchExePath, winCastCorePath, partialTextFile)
 
